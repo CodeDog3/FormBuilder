@@ -4,6 +4,13 @@ import { NextApiRequest } from "next";
 
 class UserNotFoundError extends Error {};
 
+export type GetStatsResponse  = {
+    visits: number;
+    submissions: number;
+    submissionRate: number;
+    bounceRate: number;
+}
+
 export async function GET(){
 
     const user = await currentUser();

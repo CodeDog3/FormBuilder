@@ -2,41 +2,22 @@
 
 import { currentUser} from "@clerk/nextjs/server";
 import { useEffect, useMemo, useState } from "react";
+import type { GetStatsResponse } from "../api/dashboard/route";
 
 export default function Home() {
 
-  const [stats, setStats] = useState(null);
-  const [error, setError] = useState<null|string>(null);
+  const [stats, setStats] = useState<null|GetStatsResponse>(null);
 
-
-const fetchStats = useMemo(() => async () => {
-    try {
-      const res = await fetch('/api/dashboard');
-      console.log(res);
-      if (!res.ok) throw new Error('bad request');
-
-      const data = await res.json();
-      console.log(data);
-      setStats(data);
-    }
-    catch (error: unknown) {
-      if(error instanceof Error){
-        setError(error.message)
-        console.log(error)
-      }
-      else{
-        setError("an unknown error occured")
-      }
-    }
-  }, []);
 
   useEffect (() =>{
-    fetchStats();
+    const fetchStatsAsync = () => async () => {
+      const res = await fetch('/api/dashboard');
+      setStats(await res.json())
+    };
+
+  fetchStatsAsync();
    },[])
 
-
-console.log(stats);
-console.log(error);
 
 
   return (
