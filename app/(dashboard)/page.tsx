@@ -30,8 +30,6 @@ const fetchStats = useMemo(() => async () => {
     }
   }, []);
 
-
-
   useEffect (() =>{
     fetchStats();
    },[])
